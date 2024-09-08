@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor de Números a Letras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #5c6bc0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3949ab;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Traductor de Números a Letras</h2>
+        <input type="number" id="numberInput" placeholder="Ingresa un número" min="0" max="999">
+        <button onclick="translateNumber()">Traducir</button>
+        <div class="result" id="resultText"></div>
+    </div>
+
+    <script>
+        function numberToWords(num) {
+            const units = ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"];
+            const teens = ["diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve"];
+            const tens = ["", "", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"];
+            const hundreds = ["", "cien", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"];
+
+            if (num < 10) {
+                return units[num];
+            } else if (num >= 10 && num < 20) {
+                return teens[num - 10];
+            } else if (num >= 20 && num < 100) {
+                return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " y " + units[num % 10] : "");
+            } else if (num >= 100 && num < 1000) {
+                return hundreds[Math.floor(num / 100)] + (num % 100 !== 0 ? " " + numberToWords(num % 100) : "");
+            } else {
+                return "Número fuera de rango (solo soporta hasta 999)";
+            }
+        }
+
+        function translateNumber() {
+            const num = parseInt(document.getElementById("numberInput").value);
+            const result = document.getElementById("resultText");
+
+            if (isNaN(num) || num < 0 || num > 999) {
+                result.textContent = "Por favor ingresa un número válido entre 0 y 999.";
+            } else {
+                result.textContent = numberToWords(num);
+            }
+        }
+    </script>
+</body>
+</html>
